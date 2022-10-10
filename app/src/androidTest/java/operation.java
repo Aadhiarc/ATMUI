@@ -3,7 +3,7 @@ public class operation {
      private double depositAmount;
      private double withdrawAmount;
 
-    public double getBalance() {
+    public Double getBalance() {
         return balance;
     }
 

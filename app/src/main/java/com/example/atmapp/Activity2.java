@@ -27,5 +27,29 @@ public class Activity2 extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        bal_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1= new Intent(Activity2.this,viewBalance.class);
+                startActivity(intent1);
+                viewBalance b = new viewBalance();
+                //b.balance.setText();
+            }
+        });
+        withdraw_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(Activity2.this,withdrawAmount.class);
+                startActivity(intent2);
+            }
+        });
+        exit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.exit(0);
+            }
+        });
     }
+
 }
