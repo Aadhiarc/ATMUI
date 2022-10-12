@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class Activity2 extends AppCompatActivity {
+public class Activity3 extends AppCompatActivity {
     Button bal_btn,withdraw_btn,deposit_btn,exit_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_2);
+        setContentView(R.layout.activity_3);
         bal_btn=(Button) findViewById(R.id.balance_button);
         withdraw_btn=(Button) findViewById(R.id.withdraw_button);
         deposit_btn=(Button) findViewById(R.id.deposit_button);
@@ -23,7 +23,7 @@ public class Activity2 extends AppCompatActivity {
         deposit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Activity2.this,depositAmount.class);
+                Intent intent = new Intent(Activity3.this,depositAmount.class);
                 startActivity(intent);
             }
         });
@@ -31,19 +31,21 @@ public class Activity2 extends AppCompatActivity {
         bal_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1= new Intent(Activity2.this,viewBalance.class);
+                Intent intent1= new Intent(Activity3.this,viewBalance.class);
                 startActivity(intent1);
                 viewBalance b = new viewBalance();
                 //b.balance.setText();
             }
         });
+
         withdraw_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent2 = new Intent(Activity2.this,withdrawAmount.class);
+                Intent intent2 = new Intent(Activity3.this,withdrawAmount.class);
                 startActivity(intent2);
             }
         });
+
         exit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

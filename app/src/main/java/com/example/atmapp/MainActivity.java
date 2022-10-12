@@ -3,7 +3,10 @@ package com.example.atmapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,71 +21,80 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    EditText accountNumber,pin;
-    Button submit;
-    public ArrayList<accountMembers> accountHolders =new ArrayList();
+    EditText username,accountNumber,pin,confirmPin;
+    Button signup,reg_login;
+    DBhelper dbobject;
+    boolean check;
+    public  long dbSize;
+    public List<String> arraylist;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        username = findViewById(R.id.username);
         accountNumber=findViewById(R.id.accountNumber);
         pin=findViewById(R.id.accountPin);
-        submit=findViewById(R.id.button1);
-        jsonStuff();
+        confirmPin=findViewById(R.id.confirm_accountPin);
+        signup=findViewById(R.id.button1);
+        reg_login=findViewById(R.id.reg_loginbtn);
+        dbobject= new DBhelper(this);
         click();
 
     }
     public void click(){
-        submit.setOnClickListener(new View.OnClickListener() {
+        signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,Activity2.class);
-                if(TextUtils.isEmpty(accountNumber.getText().toString())){
-                    accountNumber.setError("Account number is compulsory");
+                SQLiteDatabase db = dbobject.getWritableDatabase();
+                ContentValues contentValues = new ContentValues();
+                String user_name= username.getText().toString();
+                String account_number=accountNumber.getText().toString();
+                String create_pin =pin.getText().toString();
+                String confirm_pin =confirmPin.getText().toString();
+                if(TextUtils.isEmpty(user_name)&&TextUtils.isEmpty(account_number)&&TextUtils.isEmpty(create_pin)&&TextUtils.isEmpty(confirm_pin)){
+                    check =false;
+                    username.setError("username should not be empty");
+                    accountNumber.setError("account number should not be empty");
+                    pin.setError("pin should not be empty");
+                    confirmPin.setError("confirm pin should not be empty");
                 }
-                if(TextUtils.isEmpty(pin.getText().toString())){
-                    pin.setError("pin is must");
+                if(create_pin.equals(confirm_pin)){
+                    check=true;
+                }else{
+                    confirmPin.setError("create pin and confirm pin should be same");
                 }
-                boolean ans=false;
-                for(int i=0;i<accountHolders.size();i++) {
-                    if (String.valueOf(accountNumber.getText()).equals(accountHolders.get(i).accountNumber) && String.valueOf(pin.getText()).equals(accountHolders.get(i).accountPin)) {
-                        ans=true;
-                        startActivity(intent);
-                    }
+                if(check==true) {
+                    contentValues.put("username", user_name);
+                    contentValues.put("accountNumber", account_number);
+                    contentValues.put("accountPin", create_pin);
+                    contentValues.put("confirmPin", confirm_pin);
+                     dbSize = db.insert("accountDetails", null, contentValues);
+                    Intent intent = new Intent(MainActivity.this,loginActivity.class);
+                    startActivity(intent);
                 }
-                if(ans==false){
-                    Toast.makeText(MainActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                SQLiteDatabase db1=dbobject.getReadableDatabase();
+                Cursor cursor=db1.rawQuery("Select * from accountDetails",null,null);
+                arraylist=new ArrayList<String>();
+                while (cursor.moveToNext()){
+                    arraylist.add(cursor.getString(0));
+                    arraylist.add(cursor.getString(1));
+                    arraylist.add(cursor.getString(2));
                 }
+                System.out.println(arraylist);
             }
         });
-    }
-    public void jsonStuff(){
-       String json;
-        try {
-            InputStream inputStream = getAssets().open("accountDetails.json");
-            int size = inputStream.available();
-            byte[] store = new byte[size];
-            inputStream.read(store);
-            inputStream.close();
-            json =new String(store,"UTF-8");
-            JSONArray jsonArray = new JSONArray(json);
-            for(int i=0;i<jsonArray.length();i++){
-                JSONObject jobj = (JSONObject) jsonArray.get(i);
-                String accountNumber = (String) (jobj.get("accountNumber"));
-                String accountPin = (String) (jobj.get("accountPin"));
-                String name = (String) (jobj.get("name"));
-                String location = (String) (jobj.get("location"));
-                accountHolders.add(new accountMembers(accountNumber,accountPin,name,location));
+        reg_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,loginActivity.class);
+                startActivity(intent);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }catch(JSONException e){
-
-        }
+        });
     }
 
 }
