@@ -2,13 +2,15 @@ package com.example.atmapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 public class Activity3 extends AppCompatActivity {
-    Button bal_btn,withdraw_btn,deposit_btn,exit_btn;
+    Button bal_btn,withdraw_btn,deposit_btn,exit_btn,back;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +19,7 @@ public class Activity3 extends AppCompatActivity {
         withdraw_btn=(Button) findViewById(R.id.withdraw_button);
         deposit_btn=(Button) findViewById(R.id.deposit_button);
         exit_btn=(Button) findViewById(R.id.exit_button);
+        back= (Button)findViewById(R.id.back_log);
         gate();
     }
     void gate(){
@@ -50,6 +53,13 @@ public class Activity3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.exit(0);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Activity3.this,loginActivity.class);
+                startActivity(intent);
             }
         });
     }

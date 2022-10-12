@@ -2,6 +2,7 @@ package com.example.atmapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,13 +19,14 @@ import java.util.List;
 public class loginActivity extends AppCompatActivity {
 
     EditText laccountNumber,laccountPin;
-    Button login;
+    Button login,back;
     DBhelper dbobject;
     String accountNumberDb;
     String accountPinDb;
     boolean check;
     boolean check1;
     List<String> arrayList;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,7 @@ public class loginActivity extends AppCompatActivity {
         laccountNumber=findViewById(R.id.login_accountNumber);
         laccountPin=findViewById(R.id.login_accountPin);
         login=findViewById(R.id.loginbtn);
+        back=findViewById(R.id.back_reg);
         click();
     }
 
@@ -44,7 +47,9 @@ public class loginActivity extends AppCompatActivity {
                 Cursor cursor=db.rawQuery("select * from accountDetails",null,null);
                 arrayList=new ArrayList<String>();
                 if(TextUtils.isEmpty(laccountNumber.getText().toString())&&TextUtils.isEmpty(laccountPin.getText().toString())){
-                    check=false;
+                    check=true;
+                }
+                if(check==true){
                     laccountNumber.setError("account number is empty");
                     laccountPin.setError("account pin is empty");
                 }
@@ -67,6 +72,14 @@ public class loginActivity extends AppCompatActivity {
                     Toast.makeText(loginActivity.this, "user not found", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(loginActivity.this,MainActivity.class);
+                startActivity(intent);
             }
         });
     }
