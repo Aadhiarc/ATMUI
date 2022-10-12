@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Button signup,reg_login;
     DBhelper dbobject;
     boolean check;
+    boolean check1;
     public  long dbSize;
     public List<String> arraylist;
 
@@ -64,19 +65,20 @@ public class MainActivity extends AppCompatActivity {
                     confirmPin.setError("confirm pin should not be empty");
                 }
                 if(create_pin.equals(confirm_pin)){
-                    check=true;
+                    check1=true;
                 }else{
                     confirmPin.setError("create pin and confirm pin should be same");
                 }
-                if(check==true) {
-                    contentValues.put("username", user_name);
-                    contentValues.put("accountNumber", account_number);
-                    contentValues.put("accountPin", create_pin);
-                    contentValues.put("confirmPin", confirm_pin);
-                     dbSize = db.insert("accountDetails", null, contentValues);
-                    Intent intent = new Intent(MainActivity.this,loginActivity.class);
-                    startActivity(intent);
-                }
+
+                        contentValues.put("username", user_name);
+                        contentValues.put("accountNumber", account_number);
+                        contentValues.put("accountPin", create_pin);
+                        contentValues.put("confirmPin", confirm_pin);
+                        dbSize = db.insert("accountDetails", null, contentValues);
+                        Intent intent = new Intent(MainActivity.this, loginActivity.class);
+                        startActivity(intent);
+
+
                 SQLiteDatabase db1=dbobject.getReadableDatabase();
                 Cursor cursor=db1.rawQuery("Select * from accountDetails",null,null);
                 arraylist=new ArrayList<String>();
@@ -91,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
         reg_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,loginActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(MainActivity.this,loginActivity.class);
+                startActivity(intent1);
             }
         });
     }
