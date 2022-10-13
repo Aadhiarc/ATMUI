@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -61,13 +62,17 @@ public class depositAmount extends AppCompatActivity {
                        Toast.makeText(depositAmount.this, "Amount Deposited successfully", Toast.LENGTH_SHORT).show();
                        bal.setText("Available balance"+" "+deposit_amount);
                    }
+                   if(TextUtils.isEmpty(deposit_amount)){
+                       depositAmount.setError("deposit amount should not be empty");
+                   }
              }
          });
 
          depositBack.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 Intent intent = new Intent(this,)
+                 Intent intent4 = new Intent(com.example.atmapp.depositAmount.this,Activity3.class);
+                 startActivity(intent4);
              }
          });
     }

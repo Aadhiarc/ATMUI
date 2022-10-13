@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                         contentValues.put("accountNumber", account_number);
                         contentValues.put("accountPin", create_pin);
                         contentValues.put("confirmPin", confirm_pin);
+                        contentValues.put("depositAmount","0");
                         dbSize = db.insert("accountDetails", null, contentValues);
                         Toast.makeText(MainActivity.this, "Registration completed successfully", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, loginActivity.class);

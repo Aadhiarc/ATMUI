@@ -26,7 +26,7 @@ public class withdrawAmount extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_deposit_amount);
         withdrawAmount = findViewById(R.id.withdraw_amount_edittext);
-        withdrawButton = findViewById(R.id.withdraw_xml_button);
+        withdrawButton = findViewById(R.id.view_xml_backButton);
         click();
     }
     void click(){
