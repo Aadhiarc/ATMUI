@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Atm App</string>
+    <string name="login_page_loginbtn">Login</string>
 </resources>

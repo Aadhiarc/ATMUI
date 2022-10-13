@@ -38,7 +38,8 @@
         android:layout_marginEnd="54dp"
         android:layout_marginBottom="356dp"
         android:hint="deposit amount"
-        app:boxStrokeColor="#0CFF00">
+        app:hintTextColor="#5A5A5A"
+        app:boxStrokeColor="#5A5A5A">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/deposit_amount_edittext"

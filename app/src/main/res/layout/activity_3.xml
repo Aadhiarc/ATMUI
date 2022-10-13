@@ -21,13 +21,14 @@
             android:layout_height="wrap_content"
             android:background="@drawable/gradient_btn"
             android:text="View Available Balance"
-            android:textColor="@color/white"
-            android:textSize="20dp"
+            android:textColor="#5A5A5A"
+            android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.279" />
+            app:layout_constraintVertical_bias="0.279"
+            android:padding="12dp"/>
 
             <Space
                 android:layout_width="match_parent"
@@ -39,14 +40,15 @@
             android:layout_height="wrap_content"
             android:background="@drawable/gradient_btn"
             android:text="Withdraw Amount"
-            android:textColor="@color/white"
-            android:textSize="20dp"
+            android:textColor="#5A5A5A"
+            android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.37" />
+            app:layout_constraintVertical_bias="0.37"
+            android:padding="12dp"/>
 
         <Space
             android:layout_width="match_parent"
@@ -63,8 +65,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.456"
         android:background="@drawable/gradient_btn"
-        android:textColor="@color/white"
-        android:textSize="20dp"/>
+        android:textColor="#5A5A5A"
+            android:padding="12dp"
+        android:textSize="15dp"/>
 
         <Space
             android:layout_width="match_parent"
@@ -76,8 +79,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/gradient_btn"
             android:text="Exit"
-            android:textColor="@color/white"
-            android:textSize="20dp"
+            android:textColor="#5A5A5A"
+            android:textSize="15dp"
+            android:padding="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -91,7 +95,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/gradient_btn"
         android:text="Back"
-        android:textColor="@color/white"
+        android:textColor="#5A5A5A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"

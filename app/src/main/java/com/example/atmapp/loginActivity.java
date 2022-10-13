@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,11 +27,15 @@ public class loginActivity extends AppCompatActivity {
     String accountPinDb;
     boolean check;
     boolean check1;
-    List<String> arrayList;
+    List<String> arratList;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
         dbobject= new DBhelper(this);
         laccountNumber=findViewById(R.id.login_accountNumber);
@@ -41,11 +47,11 @@ public class loginActivity extends AppCompatActivity {
 
     void click(){
         login.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("Range")
             @Override
             public void onClick(View view) {
                 SQLiteDatabase db =dbobject.getReadableDatabase();
-                Cursor cursor=db.rawQuery("select * from accountDetails",null,null);
-                arrayList=new ArrayList<String>();
+                Cursor cursor=db.rawQuery("select * from accountDetails where accountNumber and accountPin",null,null);
                 if(TextUtils.isEmpty(laccountNumber.getText().toString())&&TextUtils.isEmpty(laccountPin.getText().toString())){
                     check=true;
                 }
@@ -53,23 +59,16 @@ public class loginActivity extends AppCompatActivity {
                     laccountNumber.setError("account number is empty");
                     laccountPin.setError("account pin is empty");
                 }
+                arratList = new ArrayList<String>();
                 while (cursor.moveToNext()){
-                    arrayList.add(accountNumberDb= cursor.getString(1));
-                    arrayList.add(accountPinDb=cursor.getString(2));
+                          arratList.add(cursor.getString(cursor.getColumnIndex("accountNumber")));
+                          arratList.add(cursor.getString(cursor.getColumnIndex("accountPin")));
                 }
-
-                for(int i=0;i<arrayList.size();i++){
-                    if(laccountNumber.getText().toString().equals(arrayList.get(i))&&laccountPin.getText().toString().equals(arrayList.get(i+1))){
-                        check1=true;
+                for(int i=0;i<arratList.size();i++) {
+                    if (laccountNumber.getText().toString().equals(arratList.get(i)) && laccountPin.getText().toString().equals(arratList.get(i+1))) {
                         i=i+1;
-                        Intent intent = new Intent(loginActivity.this,Activity3.class);
-                        startActivity(intent);
+                        Toast.makeText(loginActivity.this, "login successfully", Toast.LENGTH_SHORT).show();
                     }
-                }
-                if(check1==true){
-                    Toast.makeText(loginActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(loginActivity.this, "user not found", Toast.LENGTH_SHORT).show();
                 }
 
             }
