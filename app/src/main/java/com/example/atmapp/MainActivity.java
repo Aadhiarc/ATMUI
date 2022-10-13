@@ -106,8 +106,9 @@ public class MainActivity extends AppCompatActivity {
                     arraylist.add(cursor.getString(0));
                     arraylist.add(cursor.getString(1));
                     arraylist.add(cursor.getString(2));
+
                 }
-                System.out.println(arraylist);
+
             }
         });
         reg_login.setOnClickListener(new View.OnClickListener() {

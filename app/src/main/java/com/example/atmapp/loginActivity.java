@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -66,8 +67,15 @@ public class loginActivity extends AppCompatActivity {
                 }
                 for(int i=0;i<arratList.size();i++) {
                     if (laccountNumber.getText().toString().equals(arratList.get(i)) && laccountPin.getText().toString().equals(arratList.get(i+1))) {
+                        String acNum=String.valueOf(laccountNumber.getText());
+                        SharedPreferences mysharedPreferences=getSharedPreferences("Aadhi",MODE_PRIVATE);
+                        SharedPreferences.Editor editor= mysharedPreferences.edit();
+                        editor.putString("accountNumber",acNum);
+                        editor.commit();
                         i=i+1;
                         Toast.makeText(loginActivity.this, "login successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(loginActivity.this,Activity3.class);
+                        startActivity(intent);
                     }
                 }
 
