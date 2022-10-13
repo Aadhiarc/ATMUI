@@ -48,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
         pin=findViewById(R.id.accountPin);
         confirmPin=findViewById(R.id.confirm_accountPin);
         signup=findViewById(R.id.button1);
-        reg_login=findViewById(R.id.reg_loginbtn);
         dbobject= new DBhelper(this);
         click();
 
     }
+
     public void click(){
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,12 +112,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        reg_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent1 = new Intent(MainActivity.this,loginActivity.class);
-                startActivity(intent1);
-            }
-        });
+
     }
 }

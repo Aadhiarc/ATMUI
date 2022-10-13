@@ -1,8 +1,10 @@
 package com.example.atmapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -28,6 +30,7 @@ public class loginActivity extends AppCompatActivity {
     String accountPinDb;
     boolean check;
     boolean check1;
+    AlertDialog.Builder builder;
     List<String> arratList;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -91,5 +94,23 @@ public class loginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        builder = new AlertDialog.Builder(this);
+       builder.setTitle("Alert !!!")
+               .setMessage("Do you want to logout")
+               .setCancelable(false)
+               .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+                     finishAffinity();
+                   }
+               }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+                       dialogInterface.cancel();
+                   }
+               });builder.show();
 
+    }
 }
