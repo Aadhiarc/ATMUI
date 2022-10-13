@@ -1,8 +1,10 @@
 package com.example.atmapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.Button;
 
 public class Activity3 extends AppCompatActivity {
     Button bal_btn,withdraw_btn,deposit_btn,exit_btn,back;
+    AlertDialog.Builder builder;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,26 @@ public class Activity3 extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle("Alert !!!")
+                .setMessage("Do you want to logout")
+                .setCancelable(false)
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Activity3.this,loginActivity.class);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });builder.show();
+
     }
 
 }
