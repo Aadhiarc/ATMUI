@@ -60,20 +60,10 @@ public class viewBalance extends AppCompatActivity {
         }
         SharedPreferences mysharedPreferences=getSharedPreferences("Aadhi",MODE_PRIVATE);
         String acNum=mysharedPreferences.getString("accountNumber","empty");
-        for(int i =0;i<arrayList.size();i++){
-            if(arrayList.get(i).equals(acNum)){
-                for(int j =0;j<arrayList.size();j++) {
-                    String updateBal = arrayList.get(j);
-                    balance.setText(updateBal);
-                    String updatedBalance= getIntent().getStringExtra("updatedBalance");
-                    boolean checking = Boolean.parseBoolean(getIntent().getStringExtra("checking"));
-                    System.out.println(checking);
-                    if(checking==true){
-                        balance.setText(updatedBalance);
-                    }
-
-                }
-            }
+        for(int i =1;i<arrayList.size();i++){
+           if(arrayList.get(i).equals(acNum)){
+               System.out.println("MY ACC"+arrayList.get(i));
+           }
         }
 
     }

@@ -86,8 +86,7 @@ public class depositAmount extends AppCompatActivity {
                                    ContentValues contentValues = new ContentValues();
                                    String deposit_amount =depositAmount.getText().toString();
                                    contentValues.put("depositAmount",deposit_amount);
-                                   long value = db1.update("accountDetails",contentValues,"accountNumber=?",new String[]{acNum});
-                                   System.out.println(value);
+                                   db1.update("accountDetails",contentValues,"accountNumber=?",new String[]{acNum});
                                    SQLiteDatabase depositRead=dbobj.getReadableDatabase();
                                    Cursor read=depositRead.rawQuery("select * from accountDetails",null,null);
                                    while (read.moveToNext()){
