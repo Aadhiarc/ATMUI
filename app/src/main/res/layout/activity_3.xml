@@ -12,82 +12,94 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dashboard :"
+            android:textSize="50dp"
+            android:textStyle="italic|bold"
+            android:textColor="@color/black"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/balance_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/gradient_btn"
+            android:padding="12dp"
             android:text="View Available Balance"
-            android:textColor="#5A5A5A"
+            android:textColor="@color/black"
             android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.279"
-            android:padding="12dp"/>
+            app:layout_constraintVertical_bias="0.279" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="10dp"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/withdraw_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/gradient_btn"
+            android:padding="12dp"
             android:text="Withdraw Amount"
-            android:textColor="#5A5A5A"
+            android:textColor="@color/black"
             android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.37"
-            android:padding="12dp"/>
+            app:layout_constraintVertical_bias="0.37" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="10dp"/>
+            android:layout_height="10dp" />
 
         <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/deposit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Deposit The Amount"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.456"
-        android:background="@drawable/gradient_btn"
-        android:textColor="#5A5A5A"
+            android:id="@+id/deposit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_btn"
             android:padding="12dp"
-        android:textSize="15dp"/>
+            android:text="Deposit The Amount"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.456" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="10dp"/>
+            android:layout_height="10dp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/exit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/gradient_btn"
-            android:text="Exit"
-            android:textColor="#5A5A5A"
-            android:textSize="15dp"
             android:padding="12dp"
+            android:text="Exit"
+            android:textColor="@color/black"
+            android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.544" />
+
     </LinearLayout>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/back_log"
@@ -95,7 +107,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/gradient_btn"
         android:text="Back"
-        android:textColor="#5A5A5A"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"

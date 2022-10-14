@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     arraylist.add(cursor.getString(0));
                     arraylist.add(cursor.getString(1));
                     arraylist.add(cursor.getString(2));
-
+                    System.out.println("accountNumber"+arraylist.get(1));
                 }
 
             }

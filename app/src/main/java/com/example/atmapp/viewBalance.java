@@ -62,10 +62,11 @@ public class viewBalance extends AppCompatActivity {
         String acNum=mysharedPreferences.getString("accountNumber","empty");
         for(int i =0;i<arrayList.size();i++){
             if(arrayList.get(i).equals(acNum)){
-               String updateBal=arrayList.get(1);
-                System.out.println("MY BAL"+updateBal);
-                balance.setText(updateBal);
-
+                for(int j =0;j<arrayList.size();j++) {
+                    String updateBal = arrayList.get(j);
+                    System.out.println("MY BAL" + updateBal);
+                    balance.setText(updateBal);
+                }
             }
         }
 

@@ -53,15 +53,15 @@ public class Activity3 extends AppCompatActivity {
         withdraw_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent2 = new Intent(Activity3.this,withdrawAmount.class);
-                startActivity(intent2);
+              Intent intent = new Intent(Activity3.this,withdrawAmount.class);
+              startActivity(intent);
             }
         });
 
         exit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.exit(0);
+                finishAffinity();
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
