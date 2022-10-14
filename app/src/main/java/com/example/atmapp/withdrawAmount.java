@@ -3,6 +3,7 @@ package com.example.atmapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,6 +26,7 @@ public class withdrawAmount extends AppCompatActivity {
     TextView avBalance;
     DBhelper dBhelper;
     List<String> arrayList;
+    boolean condition;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -45,6 +47,7 @@ public class withdrawAmount extends AppCompatActivity {
         withdrawButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                condition=true;
                 SQLiteDatabase db =dBhelper.getReadableDatabase();
                 Cursor cursor1=db.rawQuery("select * from accountDetails",null,null);
                 arrayList=new ArrayList<String>();
@@ -60,6 +63,10 @@ public class withdrawAmount extends AppCompatActivity {
                             Double withdraw =Double.parseDouble(withdrawAmount.getText().toString());
                             Double updateBal = Double.parseDouble(arrayList.get(j))-withdraw;
                             avBalance.setText(updateBal.toString());
+                            Intent intent = new Intent(com.example.atmapp.withdrawAmount.this,viewBalance.class);
+                            String updatedBal = updateBal.toString();
+                            intent.putExtra("updatedBalance",updatedBal);
+                            intent.putExtra("checking",condition);
                         }
                     }
                 }

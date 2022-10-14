@@ -64,8 +64,14 @@ public class viewBalance extends AppCompatActivity {
             if(arrayList.get(i).equals(acNum)){
                 for(int j =0;j<arrayList.size();j++) {
                     String updateBal = arrayList.get(j);
-                    System.out.println("MY BAL" + updateBal);
                     balance.setText(updateBal);
+                    String updatedBalance= getIntent().getStringExtra("updatedBalance");
+                    boolean checking = Boolean.parseBoolean(getIntent().getStringExtra("checking"));
+                    System.out.println(checking);
+                    if(checking==true){
+                        balance.setText(updatedBalance);
+                    }
+
                 }
             }
         }
