@@ -19,11 +19,15 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class depositAmount extends AppCompatActivity {
     public TextInputEditText depositAmount;
     TextView bal;
     public Button depositButton,depositBack;
     DBhelper dbobj;
+    List<String> arrayList;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -46,25 +50,28 @@ public class depositAmount extends AppCompatActivity {
          depositButton.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 SQLiteDatabase db1 = dbobj.getWritableDatabase();
-                 ContentValues contentValues = new ContentValues();
-                 String deposit_amount =depositAmount.getText().toString();
-                 contentValues.put("depositAmount",deposit_amount);
+                 SQLiteDatabase d =dbobj.getReadableDatabase();
+                 Cursor cursord= d.rawQuery("select * from accountDetails",null,null);
+                 arrayList=new ArrayList<String>();
+                 while(cursord.moveToNext()){
+                     arrayList.add(cursord.getString(1));
+                 }
                  SharedPreferences mysharedPreferences=getSharedPreferences("Aadhi",MODE_PRIVATE);
-                 String acNum=mysharedPreferences.getString("accountNumber","123456789");
-                 db1.update("accountDetails",contentValues,"accountNumber=?",new String[]{acNum});
-                 SQLiteDatabase db2=dbobj.getReadableDatabase();
-                 Cursor cursor=db1.rawQuery("Select * from accountDetails ",null,null);
-                  while(cursor.moveToNext()) {
-                  cursor.getColumnName(4);
-               }
-                   if(cursor.getCount()>1){
-                       Toast.makeText(depositAmount.this, "Amount Deposited successfully", Toast.LENGTH_SHORT).show();
-                       bal.setText("Available balance"+" "+deposit_amount);
-                   }
-                   if(TextUtils.isEmpty(deposit_amount)){
-                       depositAmount.setError("deposit amount should not be empty");
-                   }
+                 String acNum=mysharedPreferences.getString("accountNumber","empty");
+                 for(int i=0;i<arrayList.size();i++){
+                     if(arrayList.get(i).equals(acNum)){
+                         SQLiteDatabase db1 = dbobj.getWritableDatabase();
+                         ContentValues contentValues = new ContentValues();
+                         String deposit_amount =depositAmount.getText().toString();
+                         contentValues.put("depositAmount",deposit_amount);
+                         db1.update("accountDetails",contentValues,"accountNumber=?",new String[]{acNum});
+                         SQLiteDatabase depositRead=dbobj.getReadableDatabase();
+                         Cursor read=depositRead.rawQuery("select * from accountDetails",null,null);
+                         while (read.moveToNext()){
+                             bal.setText(  read.getString(4));
+                         }
+                     }
+                 }
              }
          });
 
