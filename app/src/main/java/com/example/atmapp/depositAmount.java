@@ -75,7 +75,7 @@ public class depositAmount extends AppCompatActivity {
                  String deposit_amount= String.valueOf(updateValue);
                  ContentValues contentValues = new ContentValues();
                  contentValues.put("depositAmount",deposit_amount);
-                 sqLiteDatabase.update(ACCOUNT_DETAILS,contentValues,COLUMN_ACCOUNT_NUMBER +" =? ",new String[]{acnum});
+                 long val = sqLiteDatabase.update(ACCOUNT_DETAILS,contentValues,COLUMN_ACCOUNT_NUMBER +" =? ",new String[]{acnum});
                  bal.setText(deposit_amount);
                  alert();
              }
