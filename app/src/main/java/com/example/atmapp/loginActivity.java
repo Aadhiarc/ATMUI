@@ -1,5 +1,8 @@
 package com.example.atmapp;
 
+import static com.example.atmapp.DBhelper.ACCOUNT_DETAILS;
+import static com.example.atmapp.DBhelper.COLUMN_ACCOUNT_NUMBER;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,12 +29,13 @@ public class loginActivity extends AppCompatActivity {
     EditText laccountNumber,laccountPin;
     Button login,back;
     DBhelper dbobject;
-    String accountNumberDb;
-    String accountPinDb;
-    boolean check;
-    boolean check1;
+    SharedPreferences sp;
+    String name;
+    String pin;
+    List<String> arrayList;
+    String loginAccountNumbers;
     AlertDialog.Builder builder;
-    List<String> arratList;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,44 +50,39 @@ public class loginActivity extends AppCompatActivity {
         laccountPin=findViewById(R.id.login_accountPin);
         login=findViewById(R.id.loginbtn);
         back=findViewById(R.id.back_reg);
+        sp=getSharedPreferences("localdb",MODE_PRIVATE);
         click();
     }
 
     void click(){
         login.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("Range")
             @Override
             public void onClick(View view) {
-                SQLiteDatabase db =dbobject.getReadableDatabase();
-                Cursor cursor=db.rawQuery("select * from accountDetails where accountNumber and accountPin",null,null);
-                if(TextUtils.isEmpty(laccountNumber.getText().toString())&&TextUtils.isEmpty(laccountPin.getText().toString())){
-                    check=true;
-                }
-                if(check==true){
-                    laccountNumber.setError("account number is empty");
-                    laccountPin.setError("account pin is empty");
-                }
-                arratList = new ArrayList<String>();
+                SQLiteDatabase sqLiteDatabase=dbobject.getReadableDatabase();
+                Cursor cursor=sqLiteDatabase.rawQuery("select * from accountDetails",null);
+                arrayList = new ArrayList<>();
                 while (cursor.moveToNext()){
-                          arratList.add(cursor.getString(cursor.getColumnIndex("accountNumber")));
-                          arratList.add(cursor.getString(cursor.getColumnIndex("accountPin")));
+                    arrayList.add(cursor.getString(1));
                 }
-                for(int i=0;i<arratList.size();i++) {
-                    if (laccountNumber.getText().toString().equals(arratList.get(i)) && laccountPin.getText().toString().equals(arratList.get(i+1))) {
-                        String acNum=String.valueOf(laccountNumber.getText());
-                        SharedPreferences mysharedPreferences=getSharedPreferences("Aadhi",MODE_PRIVATE);
-                        SharedPreferences.Editor editor= mysharedPreferences.edit();
-                        editor.putString("accountNumber",acNum);
-                        editor.commit();
-                        i=i+1;
-                        Toast.makeText(loginActivity.this, "login successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(loginActivity.this,Activity3.class);
-                        startActivity(intent);
-                    }
-                }
-
+                // i have created for loop to only iterate the account number in database
+                      for(int i=0;i<arrayList.size();i++){
+                          loginAccountNumbers=arrayList.get(i);
+                          if(laccountNumber.getText().toString().equals(loginAccountNumbers)){
+                               name=loginAccountNumbers;
+                              SharedPreferences.Editor editor=sp.edit();
+                              editor.putString("loginAccountNumber",name);
+                              editor.commit();
+                          }
+                      }
+                      getData();
+                      if(laccountNumber.getText().toString().equals(name)&&laccountPin.getText().toString().equals(pin)){
+                          Toast.makeText(loginActivity.this, "login successfully", Toast.LENGTH_SHORT).show();
+                          Intent intent = new Intent(loginActivity.this,Activity3.class);
+                          startActivity(intent);
+                      }else{
+                          Toast.makeText(loginActivity.this, "invalid credentials", Toast.LENGTH_SHORT).show();
+                      }
             }
-
         });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,5 +111,12 @@ public class loginActivity extends AppCompatActivity {
                    }
                });builder.show();
 
+    }
+    void getData(){
+        SQLiteDatabase sqLiteDatabase = dbobject.getReadableDatabase();
+         Cursor cursor= sqLiteDatabase.rawQuery("select * from "+ACCOUNT_DETAILS+" where " + COLUMN_ACCOUNT_NUMBER +" =? " ,new String[]{name});
+        while (cursor.moveToNext()){
+             pin =cursor.getString(2);
+        }
     }
 }

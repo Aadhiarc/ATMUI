@@ -1,8 +1,12 @@
 package com.example.atmapp;
 
+import static com.example.atmapp.DBhelper.ACCOUNT_DETAILS;
+import static com.example.atmapp.DBhelper.COLUMN_ACCOUNT_NUMBER;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -25,8 +29,7 @@ public class withdrawAmount extends AppCompatActivity {
     public  Button withdrawButton;
     TextView avBalance;
     DBhelper dBhelper;
-    List<String> arrayList;
-    boolean condition;
+    String view_balance;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,59 +43,39 @@ public class withdrawAmount extends AppCompatActivity {
         withdrawAmount = findViewById(R.id.withdraw_amount_edittext);
         withdrawButton = findViewById(R.id.view_xml_backButton);
         avBalance=findViewById(R.id.viewbalanceWithdraw);
-        database();
+        dbRead();
         click();
     }
     void click(){
-        withdrawButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                condition=true;
-                SQLiteDatabase db =dBhelper.getReadableDatabase();
-                Cursor cursor1=db.rawQuery("select * from accountDetails",null,null);
-                arrayList=new ArrayList<String>();
-                while (cursor1.moveToNext()){
-                    arrayList.add(cursor1.getString(1));
-                    arrayList.add(cursor1.getString(4));
-                }
-                SharedPreferences mysharedPreferences=getSharedPreferences("Aadhi",MODE_PRIVATE);
-                String acNum=mysharedPreferences.getString("accountNumber","empty");
-                for(int i =0;i<arrayList.size();i++){
-                    if(arrayList.get(i).equals(acNum)){
-                        for(int j =0;j<arrayList.size();j++) {
-                            Double withdraw =Double.parseDouble(withdrawAmount.getText().toString());
-                            Double updateBal = Double.parseDouble(arrayList.get(j))-withdraw;
-                            avBalance.setText(updateBal.toString());
-                            Intent intent = new Intent(com.example.atmapp.withdrawAmount.this,viewBalance.class);
-                            String updatedBal = updateBal.toString();
-                            intent.putExtra("updatedBalance",updatedBal);
-                            intent.putExtra("checking",condition);
-                        }
-                    }
-                }
-            }
-        });
-    }
+          withdrawButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  dBhelper = new DBhelper(withdrawAmount.this);
+                  SharedPreferences sp =getApplicationContext().getSharedPreferences("localdb",MODE_PRIVATE);
+                  String acnum=sp.getString("loginAccountNumber","");
+                  SQLiteDatabase sqLiteDatabase =dBhelper.getWritableDatabase();
+                  ContentValues contentValues = new ContentValues();
+                  int editViewText = Integer.parseInt(withdrawAmount.getText().toString());
+                  int dataBase= Integer.parseInt(view_balance);
+                  int remainingBalance=dataBase-editViewText;
+                  String string_remaining_balance= String.valueOf(remainingBalance);
+                  contentValues.put("availableBalance",string_remaining_balance);
+                  sqLiteDatabase.update(ACCOUNT_DETAILS,contentValues,COLUMN_ACCOUNT_NUMBER +" =? ",new String[]{acnum});
+                  avBalance.setText(string_remaining_balance);
+              }
+          });
+     }
+     void dbRead(){
+         SharedPreferences sp=getApplicationContext().getSharedPreferences("localdb",MODE_PRIVATE);
+         String acnum=sp.getString("loginAccountNumber","");
+         dBhelper=new DBhelper(withdrawAmount.this);
+         SQLiteDatabase sqLiteDatabase =dBhelper.getReadableDatabase();
+         Cursor cursor=sqLiteDatabase.rawQuery("select * from "+ACCOUNT_DETAILS+" where "+COLUMN_ACCOUNT_NUMBER+"=?",new String[]{acnum});
+         while (cursor.moveToNext()){
+             view_balance= cursor.getString(3);
+             avBalance.setText(view_balance);
+         }
+     }
 
-    void database(){
-        dBhelper=new DBhelper(this);
-        SQLiteDatabase db =dBhelper.getReadableDatabase();
-        Cursor cursor=db.rawQuery("select * from accountDetails",null,null);
-        arrayList=new ArrayList<String>();
-        while (cursor.moveToNext()){
-            arrayList.add(cursor.getString(1));
-            arrayList.add(cursor.getString(4));
-        }
-        SharedPreferences mysharedPreferences=getSharedPreferences("Aadhi",MODE_PRIVATE);
-        String acNum=mysharedPreferences.getString("accountNumber","empty");
-        for(int i =0;i<arrayList.size();i++){
-            if(arrayList.get(i).equals(acNum)){
-                for(int j =0;j<arrayList.size();j++) {
-                    String updateBal = arrayList.get(j);
-                    System.out.println("MY BAL" + updateBal);
-                    avBalance.setText(updateBal);
-                }
-            }
-        }
-    }
 }
+

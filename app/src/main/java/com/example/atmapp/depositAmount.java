@@ -1,5 +1,8 @@
 package com.example.atmapp;
 
+import static com.example.atmapp.DBhelper.ACCOUNT_DETAILS;
+import static com.example.atmapp.DBhelper.COLUMN_ACCOUNT_NUMBER;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,9 +31,11 @@ public class depositAmount extends AppCompatActivity {
     public TextInputEditText depositAmount;
     TextView bal;
     public Button depositButton,depositBack;
-    DBhelper dbobj;
+    DBhelper dBhelper;
     List<String> arrayList;
     AlertDialog.Builder builder;
+    String intialBal;
+    String view_balance;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -45,15 +50,34 @@ public class depositAmount extends AppCompatActivity {
         depositButton = findViewById(R.id.deposit_xml_button);
         bal= findViewById(R.id.depositViewBalance);
         depositBack=findViewById(R.id.deposit_xml_backButton);
-        dbobj = new DBhelper(this);
+        dBhelper = new DBhelper(this);
         click();
+        bal.setText(view_balance);
     }
 
     void click() {
          depositButton.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                alert();
+                 SharedPreferences sp =getApplicationContext().getSharedPreferences("localdb",MODE_PRIVATE);
+                 String acnum=sp.getString("loginAccountNumber","");
+                 SQLiteDatabase sqLiteDatabase1=dBhelper.getReadableDatabase();
+                 Cursor cursor=sqLiteDatabase1.rawQuery("select * from "+ACCOUNT_DETAILS+" where "+COLUMN_ACCOUNT_NUMBER+"=?",new String[]{acnum});
+                 while (cursor.moveToNext()){
+                      intialBal=cursor.getString(4);
+                 }
+                 System.out.println(intialBal);
+                 int intial_bal=Integer.parseInt(intialBal);
+                 SQLiteDatabase sqLiteDatabase =dBhelper.getWritableDatabase();
+                 String deposit_Amount=depositAmount.getText().toString();
+                 int intial_deposit_amount=Integer.parseInt(deposit_Amount);
+                 int updateValue=intial_deposit_amount+intial_bal;
+                 String deposit_amount= String.valueOf(updateValue);
+                 ContentValues contentValues = new ContentValues();
+                 contentValues.put("depositAmount",deposit_amount);
+                 sqLiteDatabase.update(ACCOUNT_DETAILS,contentValues,COLUMN_ACCOUNT_NUMBER +" =? ",new String[]{acnum});
+                 bal.setText(deposit_amount);
+                 alert();
              }
          });
 
@@ -72,28 +96,6 @@ public class depositAmount extends AppCompatActivity {
                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialogInterface, int i) {
-                           SQLiteDatabase d =dbobj.getReadableDatabase();
-                           Cursor cursord= d.rawQuery("select * from accountDetails",null,null);
-                           arrayList=new ArrayList<String>();
-                           while(cursord.moveToNext()){
-                               arrayList.add(cursord.getString(1));
-                           }
-                           SharedPreferences mysharedPreferences=getSharedPreferences("Aadhi",MODE_PRIVATE);
-                           String acNum=mysharedPreferences.getString("accountNumber","empty");
-                           for(int k=0;k<arrayList.size();k++){
-                               if(arrayList.get(k).equals(acNum)){
-                                   SQLiteDatabase db1 = dbobj.getWritableDatabase();
-                                   ContentValues contentValues = new ContentValues();
-                                   String deposit_amount =depositAmount.getText().toString();
-                                   contentValues.put("depositAmount",deposit_amount);
-                                   db1.update("accountDetails",contentValues,"accountNumber=?",new String[]{acNum});
-                                   SQLiteDatabase depositRead=dbobj.getReadableDatabase();
-                                   Cursor read=depositRead.rawQuery("select * from accountDetails",null,null);
-                                   while (read.moveToNext()){
-                                       bal.setText(  read.getString(4));
-                                   }
-                               }
-                           }
                            Toast.makeText(depositAmount.this, "Amount Deposited successfully", Toast.LENGTH_SHORT).show();
                        }
                    }).setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -102,5 +104,17 @@ public class depositAmount extends AppCompatActivity {
                            dialogInterface.cancel();
                        }
                    }).show();
+       }
+       void viewBalance(){
+               SharedPreferences sp=getApplicationContext().getSharedPreferences("localdb",MODE_PRIVATE);
+               String acnum=sp.getString("loginAccountNumber","");
+               dBhelper=new DBhelper(depositAmount.this);
+               SQLiteDatabase sqLiteDatabase =dBhelper.getReadableDatabase();
+               Cursor cursor=sqLiteDatabase.rawQuery("select * from "+ACCOUNT_DETAILS+" where "+COLUMN_ACCOUNT_NUMBER+"=?",new String[]{acnum});
+               while (cursor.moveToNext()){
+                    view_balance= cursor.getString(4);
+
+               }
+
        }
 }
