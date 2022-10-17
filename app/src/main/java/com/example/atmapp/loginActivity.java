@@ -94,7 +94,7 @@ public class loginActivity extends AppCompatActivity {
     public void onBackPressed() {
         builder = new AlertDialog.Builder(this);
         builder.setTitle("Alert !!!")
-                .setMessage("Do you want to logout")
+                .setMessage("Do you want to exit the app")
                 .setCancelable(false)
                 .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override

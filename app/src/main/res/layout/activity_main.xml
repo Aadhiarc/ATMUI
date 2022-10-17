@@ -47,12 +47,12 @@
         android:layout_height="wrap_content"
         android:hint="username"
         app:boxStrokeColor="@color/black"
+        app:counterEnabled="true"
         app:counterMaxLength="15"
         app:endIconMode="clear_text"
+        app:errorEnabled="true"
         app:helperTextTextColor="#FF0000"
         app:hintTextColor="@color/black"
-        app:errorEnabled="true"
-        app:counterEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.612"
@@ -77,10 +77,10 @@
         android:layout_height="wrap_content"
         android:hint="account number"
         app:boxStrokeColor="@color/black"
+        app:counterEnabled="true"
         app:counterMaxLength="6"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
-        app:counterEnabled="true"
         app:helperTextTextColor="#FF0000"
         app:hintTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -108,10 +108,10 @@
         android:layout_marginBottom="292dp"
         android:hint="create a pin"
         app:boxStrokeColor="@color/black"
+        app:counterEnabled="true"
         app:counterMaxLength="4"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
-        app:counterEnabled="true"
         app:helperTextTextColor="#FF0000"
         app:hintTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -139,12 +139,12 @@
         android:layout_marginBottom="204dp"
         android:hint="confirm pin"
         app:boxStrokeColor="@color/black"
+        app:counterEnabled="true"
         app:counterMaxLength="4"
         app:endIconMode="password_toggle"
+        app:errorEnabled="true"
         app:helperTextTextColor="#FF0000"
         app:hintTextColor="@color/black"
-        app:errorEnabled="true"
-        app:counterEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.612"
@@ -161,8 +161,6 @@
             tools:layout_editor_absoluteX="80dp"
             tools:layout_editor_absoluteY="412dp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

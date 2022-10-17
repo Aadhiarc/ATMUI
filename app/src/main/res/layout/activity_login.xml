@@ -31,12 +31,12 @@
         android:layout_height="wrap_content"
         android:hint="account number"
         app:boxStrokeColor="@color/black"
+        app:counterEnabled="true"
         app:counterMaxLength="6"
         app:endIconMode="clear_text"
+        app:errorEnabled="true"
         app:helperTextTextColor="#FF0000"
         app:hintTextColor="@color/black"
-        app:errorEnabled="true"
-        app:counterEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.612"
@@ -62,10 +62,10 @@
         android:layout_marginBottom="264dp"
         android:hint="Enter your password"
         app:boxStrokeColor="@color/black"
+        app:counterEnabled="true"
         app:counterMaxLength="4"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
-        app:counterEnabled="true"
         app:helperTextTextColor="#FF0000"
         app:hintTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -105,6 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/gradient_btn"
+        android:padding="12dp"
         android:text="New user?SignUP here"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -113,7 +114,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.866"
-        tools:ignore="MissingConstraints"
-        android:padding="12dp"/>
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

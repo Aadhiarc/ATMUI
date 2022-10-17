@@ -17,8 +17,7 @@
         android:layout_marginBottom="290dp"
         android:background="@drawable/gradient_btn"
         android:text="Back"
-        android:textColor="@color/black"/>
-
+        android:textColor="@color/black" />
 
 
     <TextView
@@ -30,9 +29,9 @@
         android:layout_marginEnd="177dp"
         android:layout_marginBottom="484dp"
         android:text="Available balance:"
+        android:textColor="@color/black"
         android:textSize="24sp"
-        android:textStyle="bold|italic"
-        android:textColor="@color/black"/>
+        android:textStyle="bold|italic" />
 
     <TextView
         android:id="@+id/viewBalance"
@@ -43,9 +42,9 @@
         android:layout_marginEnd="177dp"
         android:layout_marginBottom="421dp"
         android:text="TextView"
+        android:textColor="@color/black"
         android:textSize="24sp"
-        android:textStyle="bold|italic"
-        android:textColor="@color/black"/>
+        android:textStyle="bold|italic" />
 
 
 </RelativeLayout>
