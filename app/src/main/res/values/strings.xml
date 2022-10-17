@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Atm App</string>
     <string name="login_page_loginbtn">Login</string>
+    <string name="back">Back</string>
+    <string name="dashboard_deposit_the_amount">Deposit The Amount</string>
+    <string name="dashboard_withdraw_amount">Withdraw Amount</string>
 </resources>
