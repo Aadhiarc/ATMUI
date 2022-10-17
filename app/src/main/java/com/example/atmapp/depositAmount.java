@@ -29,10 +29,10 @@ import java.util.List;
 
 public class depositAmount extends AppCompatActivity {
     public TextInputEditText depositAmount;
-    TextView bal;
+    TextView balance;
     public Button depositButton,depositBack;
     DBhelper dBhelper;
-    List<String> arrayList;
+    String deposit_amount;
     AlertDialog.Builder builder;
     String intialBal;
     String view_balance;
@@ -48,36 +48,39 @@ public class depositAmount extends AppCompatActivity {
         setContentView(R.layout.activity_deposit_amount);
         depositAmount = findViewById(R.id.deposit_amount_edittext);
         depositButton = findViewById(R.id.deposit_xml_button);
-        bal= findViewById(R.id.depositViewBalance);
+        balance= findViewById(R.id.deposit_ViewBalance);
         depositBack=findViewById(R.id.deposit_xml_backButton);
         dBhelper = new DBhelper(this);
+        viewBalance();
         click();
-        bal.setText(view_balance);
     }
 
     void click() {
          depositButton.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 SharedPreferences sp =getApplicationContext().getSharedPreferences("localdb",MODE_PRIVATE);
-                 String acnum=sp.getString("loginAccountNumber","");
-                 SQLiteDatabase sqLiteDatabase1=dBhelper.getReadableDatabase();
-                 Cursor cursor=sqLiteDatabase1.rawQuery("select * from "+ACCOUNT_DETAILS+" where "+COLUMN_ACCOUNT_NUMBER+"=?",new String[]{acnum});
-                 while (cursor.moveToNext()){
-                      intialBal=cursor.getString(4);
+                 try{
+                     SharedPreferences sp =getApplicationContext().getSharedPreferences("localdb",MODE_PRIVATE);
+                     String acnum=sp.getString("loginAccountNumber","");
+                     SQLiteDatabase sqLiteDatabase1=dBhelper.getReadableDatabase();
+                     Cursor cursor=sqLiteDatabase1.rawQuery("select * from "+ACCOUNT_DETAILS+" where "+COLUMN_ACCOUNT_NUMBER+"=?",new String[]{acnum});
+                     while (cursor.moveToNext()){
+                         intialBal=cursor.getString(3);
+                     }
+                     int intial_bal=Integer.parseInt(intialBal);
+                     SQLiteDatabase sqLiteDatabase =dBhelper.getWritableDatabase();
+                     String deposit_Amount=depositAmount.getText().toString();
+                     int intial_deposit_amount=Integer.parseInt(deposit_Amount);
+                     int updateValue=intial_deposit_amount+intial_bal;
+                     deposit_amount= String.valueOf(updateValue);
+                     ContentValues contentValues = new ContentValues();
+                     contentValues.put("depositAmount",deposit_amount);
+                     long val = sqLiteDatabase.update(ACCOUNT_DETAILS,contentValues,COLUMN_ACCOUNT_NUMBER +" =? ",new String[]{acnum});
+                     balance.setText(deposit_amount);
+                     alert();
+                 }catch (Exception e){
+
                  }
-                 System.out.println(intialBal);
-                 int intial_bal=Integer.parseInt(intialBal);
-                 SQLiteDatabase sqLiteDatabase =dBhelper.getWritableDatabase();
-                 String deposit_Amount=depositAmount.getText().toString();
-                 int intial_deposit_amount=Integer.parseInt(deposit_Amount);
-                 int updateValue=intial_deposit_amount+intial_bal;
-                 String deposit_amount= String.valueOf(updateValue);
-                 ContentValues contentValues = new ContentValues();
-                 contentValues.put("depositAmount",deposit_amount);
-                 long val = sqLiteDatabase.update(ACCOUNT_DETAILS,contentValues,COLUMN_ACCOUNT_NUMBER +" =? ",new String[]{acnum});
-                 bal.setText(deposit_amount);
-                 alert();
              }
          });
 
@@ -112,8 +115,8 @@ public class depositAmount extends AppCompatActivity {
                SQLiteDatabase sqLiteDatabase =dBhelper.getReadableDatabase();
                Cursor cursor=sqLiteDatabase.rawQuery("select * from "+ACCOUNT_DETAILS+" where "+COLUMN_ACCOUNT_NUMBER+"=?",new String[]{acnum});
                while (cursor.moveToNext()){
-                    view_balance= cursor.getString(4);
-
+                    view_balance= cursor.getString(3);
+                    balance.setText(view_balance);
                }
 
        }

@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 public class Activity3 extends AppCompatActivity {
-    Button bal_btn,withdraw_btn,deposit_btn,exit_btn,back;
+    Button bal_btn,withdraw_btn,deposit_btn,back;
     AlertDialog.Builder builder;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -27,7 +27,6 @@ public class Activity3 extends AppCompatActivity {
         bal_btn=(Button) findViewById(R.id.balance_button);
         withdraw_btn=(Button) findViewById(R.id.withdraw_button);
         deposit_btn=(Button) findViewById(R.id.deposit_button);
-        exit_btn=(Button) findViewById(R.id.exit_button);
         back= (Button)findViewById(R.id.back_log);
         gate();
     }
@@ -54,14 +53,22 @@ public class Activity3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
               Intent intent = new Intent(Activity3.this,withdrawAmount.class);
-              startActivity(intent);
-            }
-        });
-
-        exit_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finishAffinity();
+                builder = new AlertDialog.Builder(Activity3.this);
+                builder.setTitle("Alert !!!")
+                        .setMessage("Do you want to logout")
+                        .setCancelable(false)
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(Activity3.this,loginActivity.class);
+                                startActivity(intent);
+                            }
+                        }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });builder.show();
             }
         });
         back.setOnClickListener(new View.OnClickListener() {

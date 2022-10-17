@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,11 +32,10 @@ public class MainActivity extends AppCompatActivity {
     EditText username, accountNumber, pin, confirmPin;
     Button signup;
     DBhelper dBhelper;
-    usersModelClass usersModelClass;
+    TextInputLayout layoutUsername,layoutAccountNumber,layoutPin,layoutConfirmPin;
     String depositAmount;
     String availableBalance;
 
-    public List<String> arraylist;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -45,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+        layoutUsername=findViewById(R.id.usernameLayout);
+        layoutAccountNumber=findViewById(R.id.accountNumberLayout);
+        layoutPin=findViewById(R.id.accountPinLayout);
+        layoutConfirmPin=findViewById(R.id.confirm_account_PinLayout);
         username = findViewById(R.id.username);
         accountNumber = findViewById(R.id.accountNumber);
         pin = findViewById(R.id.accountPin);
@@ -52,24 +57,46 @@ public class MainActivity extends AppCompatActivity {
         signup = findViewById(R.id.button1);
         depositAmount="0";
         availableBalance="0";
-        click();
-
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(validation()==true){
+                    dBhelper = new DBhelper(MainActivity.this);
+                    boolean add = dBhelper.add(username.getText().toString(), accountNumber.getText().toString(), pin.getText().toString(), depositAmount, availableBalance);
+                    if(add==true){
+                        Toast.makeText(MainActivity.this, "Registration completed successfully", Toast.LENGTH_SHORT).show();
+                    }
+                    Intent intent = new Intent(MainActivity.this,loginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
-    public void click() {
-              signup.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      dBhelper = new DBhelper(MainActivity.this);
-                      boolean add = dBhelper.add(username.getText().toString(), accountNumber.getText().toString(), pin.getText().toString(), depositAmount, availableBalance);
-                      if(add==true){
-                          Toast.makeText(MainActivity.this, "Registration completed successfully", Toast.LENGTH_SHORT).show();
-                      }
-//
-                      Intent intent = new Intent(MainActivity.this,loginActivity.class);
-                      startActivity(intent);
-                  }
-              });
+    boolean validation(){
+        if(TextUtils.isEmpty(username.getText().toString())){
+            layoutUsername.setError("user name should not b empty");
+            return false;
+        }
+        if(TextUtils.isEmpty(accountNumber.getText().toString())){
+            layoutAccountNumber.setError("account number should not be empty");
+            return false;
+        }
+        if(TextUtils.isEmpty(pin.getText().toString())){
+            layoutPin.setError("pin should not be empty");
+            return false;
+        }
+        if(TextUtils.isEmpty(confirmPin.getText().toString())){
+            layoutConfirmPin.setError("confirm pin should not be empty");
+            return false;
+        }
+        if(pin.getText().toString().equals(confirmPin.getText().toString())){
+            return true;
+        }else{
+            Toast.makeText(this, "pin and confirm is not matching", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
     }
 
 }

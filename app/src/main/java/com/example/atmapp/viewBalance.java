@@ -49,7 +49,6 @@ public class viewBalance extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(viewBalance.this, Activity3.class);
-
                 startActivity(intent);
             }
         });
@@ -62,7 +61,7 @@ public class viewBalance extends AppCompatActivity {
         SQLiteDatabase sqLiteDatabase =dBhelper.getReadableDatabase();
         Cursor cursor=sqLiteDatabase.rawQuery("select * from "+ACCOUNT_DETAILS+" where "+COLUMN_ACCOUNT_NUMBER+"=?",new String[]{acnum});
         while (cursor.moveToNext()){
-           String view_balance= cursor.getString(4);
+           String view_balance= cursor.getString(3);
             balance.setText(view_balance);
         }
     }
