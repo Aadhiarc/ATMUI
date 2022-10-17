@@ -38,6 +38,7 @@ public class loginActivity extends AppCompatActivity {
     List<String> arrayList;
     String loginAccountNumbers;
     AlertDialog.Builder builder;
+    String userName;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -65,21 +66,17 @@ public class loginActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(laccountPin.getText().toString())){
                     accountPinLayout.setError("account pin should not be empty");
                 }
-                SQLiteDatabase sqLiteDatabase = dbobject.getReadableDatabase();
-                Cursor cursor = sqLiteDatabase.rawQuery("select * from accountDetails", null);
-                arrayList = new ArrayList<>();
-                while (cursor.moveToNext()) {
-                    arrayList.add(cursor.getString(1));
-                }
-                // i have created for loop to only iterate the account number in database
-                for (int i = 0; i < arrayList.size(); i++) {
-                    loginAccountNumbers = arrayList.get(i);
-                    if (laccountNumber.getText().toString().equals(loginAccountNumbers)) {
-                        name = loginAccountNumbers;
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString("loginAccountNumber", name);
-                        editor.commit();
+                dbobject=new DBhelper(loginActivity.this);
+                SQLiteDatabase sqLiteDatabase1 =dbobject.getReadableDatabase();
+                Cursor cursor1=sqLiteDatabase1.rawQuery("select * from "+ACCOUNT_DETAILS+" where "+COLUMN_ACCOUNT_NUMBER+"=?",new String[]{laccountNumber.getText().toString()});
+                while(cursor1.moveToNext()){
+                     userName= cursor1.getString(1);
+                    System.out.println(userName);
                     }
+                if(laccountNumber.getText().toString().equals(userName)){
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("loginAccountNumber", laccountNumber.getText().toString());
+                    editor.commit();
                 }
                 getData();
 
@@ -117,11 +114,11 @@ public class loginActivity extends AppCompatActivity {
     void getData() {
         try {
             SQLiteDatabase sqLiteDatabase = dbobject.getReadableDatabase();
-            Cursor cursor = sqLiteDatabase.rawQuery("select * from " + ACCOUNT_DETAILS + " where " + COLUMN_ACCOUNT_NUMBER + " =? ", new String[]{name});
+            Cursor cursor = sqLiteDatabase.rawQuery("select * from " + ACCOUNT_DETAILS + " where " + COLUMN_ACCOUNT_NUMBER + " =? ", new String[]{laccountNumber.getText().toString()});
             while (cursor.moveToNext()){
                 pin = cursor.getString(2);
             }
-            if (laccountNumber.getText().toString().equals(name) && laccountPin.getText().toString().equals(pin)) {
+            if (laccountNumber.getText().toString().equals(userName) && laccountPin.getText().toString().equals(pin)) {
                 Toast.makeText(loginActivity.this, "login successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(loginActivity.this, Activity3.class);
                 startActivity(intent);

@@ -131,10 +131,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-void regex(){
-        //regex pattern for accountNumber
-
-      //regex pattern for accountPin
-
-}
 }
