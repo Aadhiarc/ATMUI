@@ -45,14 +45,19 @@ public class Activity3 extends AppCompatActivity {
                 Intent intent1= new Intent(Activity3.this,viewBalance.class);
                 startActivity(intent1);
                 viewBalance b = new viewBalance();
-                //b.balance.setText();
             }
         });
 
         withdraw_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              Intent intent = new Intent(Activity3.this,withdrawAmount.class);
+                Intent intent = new Intent(Activity3.this,withdrawAmount.class);
+                startActivity(intent);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 builder = new AlertDialog.Builder(Activity3.this);
                 builder.setTitle("Alert !!!")
                         .setMessage("Do you want to logout")
@@ -69,13 +74,6 @@ public class Activity3 extends AppCompatActivity {
                                 dialogInterface.cancel();
                             }
                         });builder.show();
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Activity3.this,loginActivity.class);
-                startActivity(intent);
             }
         });
     }

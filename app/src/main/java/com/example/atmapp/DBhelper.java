@@ -1,7 +1,10 @@
 package com.example.atmapp;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -47,5 +50,6 @@ public class DBhelper extends SQLiteOpenHelper {
         long account_details = sqLiteDatabase.insert(ACCOUNT_DETAILS, null, cv);
         return account_details != -1;
     }
+
 
 }
