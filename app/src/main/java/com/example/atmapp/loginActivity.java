@@ -54,7 +54,6 @@ public class loginActivity extends AppCompatActivity {
         laccountNumber = findViewById(R.id.login_accountNumber);
         laccountPin = findViewById(R.id.login_accountPin);
         login = findViewById(R.id.loginbtn);
-        back = findViewById(R.id.back_reg);
         sp = getSharedPreferences("localdb", MODE_PRIVATE);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
