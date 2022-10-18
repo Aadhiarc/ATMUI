@@ -33,12 +33,11 @@ public class loginActivity extends AppCompatActivity {
     Button login, back;
     DBhelper dbobject;
     SharedPreferences sp;
-    String name;
     String pin;
-    List<String> arrayList;
-    String loginAccountNumbers;
     AlertDialog.Builder builder;
     String userName;
+    int count;
+    boolean check=false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -66,9 +65,22 @@ public class loginActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(laccountPin.getText().toString())){
                     accountPinLayout.setError("account pin should not be empty");
                 }
+
                 dbobject=new DBhelper(loginActivity.this);
                 SQLiteDatabase sqLiteDatabase1 =dbobject.getReadableDatabase();
                 Cursor cursor1=sqLiteDatabase1.rawQuery("select * from "+ACCOUNT_DETAILS+" where "+COLUMN_ACCOUNT_NUMBER+"=?",new String[]{laccountNumber.getText().toString()});
+                count = cursor1.getCount();
+                if(!TextUtils.isEmpty(laccountNumber.getText().toString())){
+                   check=true;
+                }
+                if(!TextUtils.isEmpty(laccountPin.getText().toString())){
+                   check=true;
+                }
+                if(check){
+                    if(count==0){
+                        Toast.makeText(loginActivity.this, "user not found", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 while(cursor1.moveToNext()){
                      userName= cursor1.getString(1);
                     System.out.println(userName);
